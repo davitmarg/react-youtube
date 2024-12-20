@@ -193,6 +193,10 @@ export default function PlaylistPage() {
         <GridVideoDetails rows={1} cols={2} size={SIZE} data={videoData}/>);
     
     const playlistsToRender = (
+        videoData && 
+        searchData &&
+        !playlistIsLoading &&
+        !searchIsLoading &&
         !playlistIsLoading &&
         !playlistError &&
         playlistsData.playlists &&

@@ -198,7 +198,10 @@ export default function App() {
   );
 
   const playlistsToRender = (
+    videoData && 
+    searchData &&
     !playlistIsLoading &&
+    !searchIsLoading &&
     !playlistError &&
     playlistsData.playlists &&
     playlistsData.playlists.map((playlist, index) => (
@@ -211,21 +214,18 @@ export default function App() {
     ))
   );
 
-  const thumbnailsToRender = (
-    !searchIsLoading &&
-    !searchError &&
-    searchData &&
+  const thumbnailsToRender = ( 
     !videoIsLoading &&
     Array.isArray(searchData) &&
     searchData.map((item, index) => ((!videoId || item.id.videoId !== videoId) && <GridVideoWithRandomSize onAdd={onAdd} key={index} data={item} index={index} size={SIZE} />))
   );
 
   const videosSkeleton = (
-    (searchIsLoading ||
-      (videoId && videoIsLoading) ||
-      !searchData) &&
-    Array.from({ length: 30 }).map((item, index) => <GridVideoSkeletonWithRandomSize key={index} index={index} size={SIZE} />)
-  );
+    (searchIsLoading || 
+        (videoId && videoIsLoading) || 
+        !searchData) && 
+        Array.from({ length: 30 }).map((item, index) => <GridVideoSkeletonWithRandomSize key={index} index={index} size={SIZE} />)
+    );
 
   return (
     <>
@@ -237,7 +237,7 @@ export default function App() {
         {addButton}
         {thumbnailsToRender}
         {videosSkeleton}
-        {playlistsToRender} {/* Render the playlists here */}
+        {playlistsToRender} 
       </Grid>
     </>
   );

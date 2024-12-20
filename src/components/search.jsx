@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const Container = styled.form`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
@@ -25,6 +25,10 @@ const Input = styled(motion.input)`
     max-width: 400px;
     flex-grow: 1;
     box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.3);
+    
+    &:focus {
+        outline: none;
+    }
 `;
 
 const Button = styled(motion.button)`

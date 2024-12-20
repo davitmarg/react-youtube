@@ -47,7 +47,7 @@ const Title = styled.input`
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    margin: 20px 0;
+    margin: 10px 0;
     color: #333;
     border: none;
     background-color: transparent;
@@ -179,11 +179,7 @@ export default function GridPlaylist() {
 
     const removeVideo = async (videoId) => {
         try {
-            const updatedVideos = data.videos.filter((video) => video.videoId !== videoId);
-            await axios.put(`https://harbour.dev.is/api/playlists/${playlistId}`, {
-                name: title,
-                videos: updatedVideos,
-            });
+            await axios.delete(`https://harbour.dev.is/api/playlists/${playlistId}/videos/${videoId}`);
             mutate();
         } catch (error) {
             console.error("Error removing video:", error);

@@ -191,7 +191,7 @@ export default function PlaylistPage() {
             <GlobalStyle/>
             <SearchBar onSearch={handleSearch} />
             <Grid rows={ROWS} cols={COLUMNS} size={SIZE}>
-                <GridItem rows={3} cols={2} size={SIZE}>
+                <GridItem rows={3} cols={3} size={SIZE}>
                     <GridPlaylist/>
                 </GridItem>
                 {videoPlayer}

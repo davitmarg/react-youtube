@@ -14,7 +14,7 @@ const VideoDetailsWrapper = styled(motion.div)`
 `;
 
 const InnerWrapper = styled.div`
-  background-color: #2f5a9e;
+  background-color: #82578c;
   border-radius: 30px;
   padding-top: 15px;
   padding-left: 15px;

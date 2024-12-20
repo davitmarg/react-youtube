@@ -85,7 +85,7 @@ export default function GridVideoItem({ rows, cols, size, data, index, onAdd, on
 
   const variants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.2, delay: 0.01 * (index % 7) } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2, delay: 0.05 * (index % 7) } },
   };
 
   const handleClick = (e) => {

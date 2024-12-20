@@ -9,10 +9,10 @@ import axios from "axios";
 import GridVideoItem from "./components/gridVideo";
 import GridVideoDetails from "./components/gridVideoDetails";
 import GridVideoSkeleton from "./components/gridVideoSkeleton";
-import { createGlobalStyle } from "styled-components";
 import GridPlaylist from "./components/gridPlaylist";
 import GridButton from "./components/gridButton";
 import GlobalStyle from "./components/globalStyle";
+import GridPlaylistThumbnail from "./components/gridPlaylistLink";
 
 async function fetcher(url) {
   const response = await axios.get(url);
@@ -50,11 +50,23 @@ function GridVideoSkeletonWithRandomSize({index, size}){
     )
 }
 
+function GridPlaylistWithRandomSize({ data, size, index }) {
+  const rows = getRandIntFrom(1, 2);
+  const cols = getRandIntFrom(1, 2);
+
+  return (
+    <GridItem rows={rows} cols={cols} size={size}>
+        <GridPlaylistThumbnail data={data} rows={rows} cols={cols} size={size}/>
+    </GridItem>
+  );
+}
+
 export default function PlaylistPage() {
     
     const SIZE = 200;
     const ROWS = 20;
     const COLUMNS = Math.max(6, Math.floor((window.innerWidth - 20) / SIZE));
+    const userId = 'davit-orz';
 
     const { playlistId } = useParams();
     const [videoId, setVideoId] = useState();
@@ -62,7 +74,13 @@ export default function PlaylistPage() {
         `https://harbour.dev.is/api/videos/${videoId}`,
         fetcher
     );
-  
+
+    
+    const { isLoading: playlistIsLoading, data: playlistsData, error: playlistError } = useSWR(
+        `https://harbour.dev.is/api/playlists?userId=${userId}`,
+        fetcher
+    );
+
     const getRandomTopics = (k) => {
         let res = (!videoIsLoading && videoData ? videoData.title + ', ' : '');
         for(let i = 0; i < k; i++)
@@ -77,6 +95,8 @@ export default function PlaylistPage() {
     `https://harbour.dev.is/api/search?q=${query ? query : randomQuery}`,
     fetcher
     );
+
+
 
     const handleSearch = (q) => {
         if (!q || q==undefined || q === '') {
@@ -171,6 +191,20 @@ export default function PlaylistPage() {
         videoId && 
         videoData && 
         <GridVideoDetails rows={1} cols={2} size={SIZE} data={videoData}/>);
+    
+    const playlistsToRender = (
+        !playlistIsLoading &&
+        !playlistError &&
+        playlistsData.playlists &&
+        playlistsData.playlists.map((playlist, index) => (
+        <GridPlaylistWithRandomSize
+            key={playlist.id}
+            data={playlist}
+            size={SIZE}
+            index={index}
+        />
+        ))
+    );
 
     const thumbnailsToRender = (
         !searchIsLoading &&
@@ -199,6 +233,7 @@ export default function PlaylistPage() {
                 {/* {videoDetails} */}
                 {thumbnailsToRender}
                 {videosSkeleton}
+                {playlistsToRender}
             </Grid>
         </>
     );

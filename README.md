@@ -1,7 +1,5 @@
 # My Take on YouTube Using React
 
-This is my implementation of a shared YouTube playlist application using React. It allows users to create playlists, share them with others, and add videos to the playlist collaboratively. The application supports a variety of features designed to enhance the user experience while interacting with YouTube content.
-
 ## Features
 
 ### Core Features:
@@ -14,8 +12,10 @@ This is my implementation of a shared YouTube playlist application using React. 
 - **Playlist Autoplay**: The next video in the playlist automatically starts playing once the current one finishes.
 - **Next/Prev Video Buttons**: Navigate through the playlist using next and previous buttons.
 - **Animations**: Using **Framer Motion**, the app includes smooth animations, enhancing the overall user experience.
+- **Playlist Grid Display**: Display playlists on the same grid layout used for videos, allowing users to easily browse and select playlists.
+- **Remove Playlists**: Users can remove playlists from the grid as needed.
 
 ### Extra Features:
 - **Random Grid Layout**: Implemented a dynamic random grid layout where elements are automatically appended to the topmost available position in the grid.
-- **Video Recommendations**: While a video is playing, the app suggests related videos based on the current video.
+- **Video Recommendations**: While a video is playing, the app dynamically suggests related videos based on the current video.
 - **Thumbnail Animation**: Cool animation effects when video thumbnails appear on the screen.

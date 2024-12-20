@@ -41,19 +41,19 @@ export default function Grid({ rows, cols, size, bgcolor, children }) {
         if(!child)
             return null;
 
-        // If row_start and col_start are provided, use them
-        if (child.props.row_start && child.props.col_start) {
+        // If startRow and startCol are provided, use them
+        if (child.props.startRow && child.props.startCol) {
           const newGridItem = {
-            row_start: child.props.row_start,
-            col_start: child.props.col_start,
+            startRow: child.props.startRow,
+            startCol: child.props.startCol,
             rowSpan,
             colSpan,
           };
           currentItems.push(newGridItem);
           return React.cloneElement(child, {
             key: index,
-            row_start: child.props.row_start,
-            col_start: child.props.col_start,
+            startRow: child.props.startRow,
+            startCol: child.props.startCol,
             rows: rowSpan,
             cols: colSpan,
             size,
@@ -64,8 +64,8 @@ export default function Grid({ rows, cols, size, bgcolor, children }) {
           if (position == null) return null;
 
           const newGridItem = {
-            row_start: position.row_start,
-            col_start: position.col_start,
+            startRow: position.startRow,
+            startCol: position.startCol,
             rowSpan,
             colSpan,
           };
@@ -73,8 +73,8 @@ export default function Grid({ rows, cols, size, bgcolor, children }) {
           currentItems.push(newGridItem);
           return React.cloneElement(child, {
             key: index,
-            row_start: position.row_start,
-            col_start: position.col_start,
+            startRow: position.startRow,
+            startCol: position.startCol,
             rows: rowSpan,
             cols: colSpan,
             size,

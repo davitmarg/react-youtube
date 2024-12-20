@@ -5,23 +5,23 @@ const GridItemDiv = styled.div`
   height  : ${({size, rows}) => rows * size}px;
   background-color: ${({bgcolor}) => bgcolor || 'transparent'};
   position: absolute;
-  top: ${({ row_start, size }) => (row_start - 1) * size || 0}px;
-  left: ${({ col_start, size }) => (col_start - 1) * size || 0}px;
+  top: ${({ startRow, size }) => (startRow - 1) * size || 0}px;
+  left: ${({ startCol, size }) => (startCol - 1) * size || 0}px;
 `;
 
-export function GridItem({rows, cols, size, row_start, col_start, children, bgcolor}){
+export function GridItem({rows, cols, size, startRow, startCol, children, bgcolor}){
 
-    return <GridItemDiv rows={rows} cols={cols} size={size} row_start={row_start} col_start={col_start} bgcolor={bgcolor}>
+    return <GridItemDiv rows={rows} cols={cols} size={size} startRow={startRow} startCol={startCol} bgcolor={bgcolor}>
         {children}
         </GridItemDiv>
 }   
 
 export function isIntersecting(item1, item2) {
     return !(
-      item1.row_start + item1.rowSpan - 1 < item2.row_start ||
-      item1.row_start > item2.row_start + item2.rowSpan - 1 ||
-      item1.col_start + item1.colSpan - 1 < item2.col_start ||
-      item1.col_start > item2.col_start + item2.colSpan - 1
+      item1.startRow + item1.rowSpan - 1 < item2.startRow ||
+      item1.startRow > item2.startRow + item2.rowSpan - 1 ||
+      item1.startCol + item1.colSpan - 1 < item2.startCol ||
+      item1.startCol > item2.startCol + item2.colSpan - 1
     );
   }
   
@@ -32,12 +32,12 @@ export function findFreePosition(rows, cols, rowSpan, colSpan, existingItems) {
             
         let isFree = true;
         for (let item of existingItems) {
-            if (isIntersecting(item, { row_start: row, col_start: col, rowSpan, colSpan })) {
+            if (isIntersecting(item, { startRow: row, startCol: col, rowSpan, colSpan })) {
             isFree = false;
             break;
             }
         }
-        if (isFree) return { row_start: row, col_start: col };
+        if (isFree) return { startRow: row, startCol: col };
         }
     }
     return null;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import Home from "../components/home";
+import { motion } from "framer-motion";
 
 // Styled components
 const Container = styled.form`
@@ -13,29 +14,30 @@ const Container = styled.form`
   margin-right: 30px;
 `;
 
-const Input = styled.input`
-    margin-left: 5px;
+const Input = styled(motion.input)`
+    margin-left: 10px;
+    font-size: 20px;
     box-sizing: border-box;
     padding: 8px;
     border: none;
-    border-radius: 20px;
-    height: 40px;
+    border-radius: 25px;
+    height: 50px;
     max-width: 400px;
     flex-grow: 1;
     box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.3);
 `;
 
-const Button = styled.button`
-    margin-left: 5px;
+const Button = styled(motion.button)`
+    margin-left: 10px;
     box-sizing: border-box;
     padding: 8px 16px;
     background-color: #ccebda;
     color: #7291d6;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
-    height: 40px;
-    font-size: 14px;
+    height: 50px;
+    font-size: 20px;
     font-weight: bold;
 
     &:hover {
@@ -52,7 +54,11 @@ export default function SearchBar({onSearch}) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchParams({ q: query.trim() });
+
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.set("q", query.trim());
+
+    setSearchParams(currentParams);
     onSearch(query);
   };
 
@@ -64,8 +70,13 @@ export default function SearchBar({onSearch}) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       />
-      <Button onClick={handleSearch}>Search</Button>
+      <Button 
+      whileHover={{ scale: 1.2 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      onClick={handleSearch}>Search</Button>
     </Container>
   );
 }

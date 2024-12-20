@@ -2,8 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const HomeWrapper = styled.div`
+const HomeWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,6 +15,7 @@ const HomeWrapper = styled.div`
   overflow: hidden; /* Ensures content outside is hidden */
   border-radius: 25px; /* Adds rounded edges to the container */
   position: relative;
+  
 `;
 
 const LogoImage = styled.img`
@@ -42,7 +44,9 @@ export default function Home() {
   };
 
   return (
-    <HomeWrapper>
+    <HomeWrapper 
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}>
       <LogoImage src="/logo.jpg" alt="Home Logo" onClick={handleLogoClick} />
     </HomeWrapper>
   );

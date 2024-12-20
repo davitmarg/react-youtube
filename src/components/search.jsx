@@ -25,7 +25,7 @@ const Input = styled(motion.input)`
     max-width: 400px;
     flex-grow: 1;
     box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.3);
-    
+
     &:focus {
         outline: none;
     }
@@ -36,7 +36,7 @@ const Button = styled(motion.button)`
     box-sizing: border-box;
     padding: 8px 16px;
     background-color: #ccebda;
-    color: #7291d6;
+    color: #36546e;
     border: none;
     border-radius: 25px;
     cursor: pointer;

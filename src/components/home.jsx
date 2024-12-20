@@ -8,13 +8,14 @@ const HomeWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 50px;
+  width: 120px;
+  height: 70px;
   box-sizing: border-box;
   background-color: #f9f9f9;
   overflow: hidden; /* Ensures content outside is hidden */
-  border-radius: 25px; /* Adds rounded edges to the container */
+  border-radius: 40px; /* Adds rounded edges to the container */
   position: relative;
+  box-shadow: 1px 5px 6px rgba(0, 0, 0, 0.3);
   
 `;
 

@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -44,10 +44,11 @@ const PlaylistDiv = styled.div`
 `;
 
 const Title = styled.input`
-    text-align: center;
+    text-align: left;
     font-size: 24px;
     font-weight: bold;
     margin: 10px 0;
+    margin-left: 20px;
     color: #333;
     border: none;
     background-color: transparent;
@@ -69,13 +70,11 @@ const StyledReactPlayer = styled(ReactPlayer)`
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 15px;
+    border-radius: 25px;
     overflow: hidden;
 `;
 
 const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 20px;
 `;
 
@@ -86,10 +85,30 @@ const NavButton = styled.button`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 10px;
+    margin-right: auto;
 
     &:disabled {
         background-color: #cccccc;
         cursor: not-allowed;
+    }
+`;
+
+const RemovePlaylistButton = styled.button`
+    padding: 10px 20px;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    &:hover {
+        background-color: #e04e29;
     }
 `;
 
@@ -98,6 +117,7 @@ export default function GridPlaylist() {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentIndexRef = useRef(parseInt(searchParams.get("index") || "0"));
     const [title, setTitle] = useState("");
+    const navigate = useNavigate(); // For navigation
 
     const { data, error, mutate } = useSWR(
         `https://harbour.dev.is/api/playlists/${playlistId}`,
@@ -114,7 +134,7 @@ export default function GridPlaylist() {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
             <PlaylistDiv>
-                <div>Loading...</div>
+                <h1>...</h1>
             </PlaylistDiv>
         </PlaylistDivWrapper>)
     }
@@ -128,7 +148,7 @@ export default function GridPlaylist() {
                 <PlaylistDiv>
                     <div>Error fetching data.</div>
                 </PlaylistDiv>
-            </PlaylistDivWrapper>)
+            </PlaylistDivWrapper> )
     }
 
     const handleTitleChange = (event) => {
@@ -186,6 +206,16 @@ export default function GridPlaylist() {
         }
     };
 
+    // Handle removing the entire playlist
+    const handleRemovePlaylist = async () => {
+        try {
+            await axios.delete(`https://harbour.dev.is/api/playlists/${playlistId}`);
+            navigate("/"); // Navigate to the homepage
+        } catch (error) {
+            console.error("Error removing playlist:", error);
+        }
+    };
+
     return (
         <PlaylistDivWrapper
             whileHover={{ scale: 1.05 }}
@@ -193,9 +223,14 @@ export default function GridPlaylist() {
         >
             <PlaylistDiv>
                 <Title
-                    value={title || data.name}
+                    defaultValue={title || data.name}
                     onChange={handleTitleChange}
                     onBlur={handleTitleSave}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.target.blur();
+                        }
+                    }}
                     placeholder="Enter playlist name"
                 />
                 {data.videos.length > currentIndexRef.current && (
@@ -224,20 +259,24 @@ export default function GridPlaylist() {
                 <div>
                     {data.videos.length > 0 ? (
                         data.videos.map((item, index) => (
-                            <PlaylistItem
-                                key={index}
-                                videoId={item.videoId}
-                                title={item.title}
-                                thumbnailUrl={item.thumbnailUrl}
-                                onClick={() => handleItemClick(index)}
-                                isPlaying={currentIndexRef.current === index}
-                                onRemove={removeVideo}  // Pass remove function to PlaylistItem
-                            />
+                            <div key={index}>
+                                <PlaylistItem
+                                    videoId={item.videoId}
+                                    title={item.title}
+                                    thumbnailUrl={item.thumbnailUrl}
+                                    onClick={() => handleItemClick(index)}
+                                    isPlaying={currentIndexRef.current === index}
+                                    onRemove={removeVideo}  // Pass remove function to PlaylistItem
+                                />
+                            </div>
                         ))
                     ) : (
                         <div>No videos in this playlist</div>
                     )}
                 </div>
+                <RemovePlaylistButton onClick={handleRemovePlaylist}>
+                    Remove Playlist
+                </RemovePlaylistButton>
             </PlaylistDiv>
         </PlaylistDivWrapper>
     );
